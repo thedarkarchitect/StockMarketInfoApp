@@ -13,6 +13,6 @@ interface StockApi {
 
     companion object {
         const val API_KEY = "BVF4IEBM4HZMS29F"
-        const val BASE_URL = "https://alphavantage.co"
+        const val BASE_URL = "https://alphavantage.co/"
     }
 }

@@ -1,8 +1,8 @@
 package com.example.stockmarketinfoapp.data.repository
 
-import com.example.stockmarketinfoapp.data.StockDatabase
-import com.example.stockmarketinfoapp.data.csv.CompanyListingParser
+import com.example.stockmarketinfoapp.data.local.StockDatabase
 import com.example.stockmarketinfoapp.data.csv.CustomCSVParser
+import com.example.stockmarketinfoapp.data.local.dao.StockDao
 import com.example.stockmarketinfoapp.data.mappers.toCompanyListing
 import com.example.stockmarketinfoapp.data.mappers.toCompanyListingEntity
 import com.example.stockmarketinfoapp.data.remote.StockApi
@@ -18,12 +18,10 @@ import javax.inject.Singleton
 
 @Singleton
 class StockRepositoryImpl @Inject constructor(
-    val api: StockApi,
-    val db: StockDatabase,
-    val companyListingParser: CustomCSVParser<CompanyListing>
+    private val api: StockApi,
+    private val dao: StockDao,
+    private val companyListingParser: CustomCSVParser<CompanyListing>
 ): StockRepository {
-
-    private val dao = db.dao
 
     override suspend fun getCompanyListings(
         fetchFromRemote: Boolean,
@@ -59,8 +57,8 @@ class StockRepositoryImpl @Inject constructor(
             }
 
             remoteListings?.let {listings ->
-                dao.clearCompanyListings()
-                dao.insertCompanyListings(
+                dao.clearCompanyListings()//clear cache on insert of new cache(updated data)
+                dao.insertCompanyListings(//data cached in the db
                     listings.map { it.toCompanyListingEntity() } // because data is going to the db
                 )
                 emit(Resource.Success(

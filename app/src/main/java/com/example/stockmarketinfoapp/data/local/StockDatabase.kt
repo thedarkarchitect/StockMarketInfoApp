@@ -1,4 +1,4 @@
-package com.example.stockmarketinfoapp.data
+package com.example.stockmarketinfoapp.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
