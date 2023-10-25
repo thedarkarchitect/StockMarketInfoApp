@@ -3,6 +3,7 @@ package com.example.stockmarketinfoapp.di
 import android.app.Application
 import androidx.room.Room
 import com.example.stockmarketinfoapp.data.csv.CompanyListingParser
+import com.example.stockmarketinfoapp.data.csv.IntradayInfoParser
 import com.example.stockmarketinfoapp.data.local.StockDatabase
 import com.example.stockmarketinfoapp.data.remote.StockApi
 import com.example.stockmarketinfoapp.data.repository.StockRepositoryImpl
@@ -49,9 +50,8 @@ object AppModule {//this is DI for the whole app and we create db and api here s
         return StockRepositoryImpl(
             api = api,
             dao = db.dao,
-            companyListingParser = CompanyListingParser()
-            )
+            companyListingParser = CompanyListingParser(),
+            intradayInfoParser = IntradayInfoParser()
+        )
     }
-
-
 }
